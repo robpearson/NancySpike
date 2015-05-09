@@ -78,7 +78,8 @@ namespace RobPearson.NancySpike.Test
                 });
 
             // Then
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);   
+            Assert.Equal(HttpStatusCode.Created, response.StatusCode);
+            Assert.Equal("/transit/FavouriteTrip/1", response.Headers["Location"]);
         }
     }
 }

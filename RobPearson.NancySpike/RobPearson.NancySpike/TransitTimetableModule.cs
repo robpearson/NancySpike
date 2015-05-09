@@ -17,15 +17,16 @@ namespace RobPearson.NancySpike
 
             Post["/transit/FavouriteTrip"] = p =>
             {
-                // TODO: This should probably be in something like a settings module
+                // NOTE: This should probably be in something like a settings module
                 var trip = this.Bind<FavouriteTrip>();
 
                 // TODO: Repo should be injected
                 var settingsRepo = new SettingsRepository();
                 var id = settingsRepo.SaveFavouriteTrip(trip);
 
-                // TODO: Add url to response for new resource
-                return HttpStatusCode.OK;
+                var response = new Response {StatusCode = HttpStatusCode.Created};
+                response.Headers["Location"] = "/transit/FavouriteTrip/" + id;
+                return response;
             };
         }
 
