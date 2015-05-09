@@ -13,7 +13,11 @@ namespace RobPearson.NancySpike.Test
         public void Can_Get_Request()
         {
             // Given
-            var browser = new Browser(with => with.Module(new TransitTimetableModule()));
+            var browser = new Browser(with =>
+            {
+                with.Module<TransitTimetableModule>();
+                with.EnableAutoRegistration();
+            });
 
             // When
             var response = browser.Get("/transit/timetable/2015-05-2",
@@ -67,7 +71,11 @@ namespace RobPearson.NancySpike.Test
                 ArrivingLocation = "1235.77, 98171.1",
                 ArrivingStopName = "Central"
             };
-            var browser = new Browser(with => with.Module(new TransitTimetableModule()));
+            var browser = new Browser(with =>
+            {
+                with.Module<TransitTimetableModule>();
+                with.EnableAutoRegistration();
+            });
 
             // When
             var response = browser.Post("/transit/FavouriteTrip",

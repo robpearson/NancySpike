@@ -11,7 +11,7 @@ namespace RobPearson.NancySpike
     /// </summary>
     public class TransitTimetableModule : NancyModule
     {
-        public TransitTimetableModule()
+        public TransitTimetableModule(ISettingsRepository settingsRepository)
         {
             Get["/transit/timetable/{timestamp}"] = p => GetTransitTimeTable(p.timestamp);
 
@@ -19,10 +19,7 @@ namespace RobPearson.NancySpike
             {
                 // NOTE: This should probably be in something like a settings module
                 var trip = this.Bind<FavouriteTrip>();
-
-                // TODO: Repo should be injected
-                var settingsRepo = new SettingsRepository();
-                var id = settingsRepo.SaveFavouriteTrip(trip);
+                var id = settingsRepository.SaveFavouriteTrip(trip);
 
                 var response = new Response {StatusCode = HttpStatusCode.Created};
                 response.Headers["Location"] = "/transit/FavouriteTrip/" + id;
