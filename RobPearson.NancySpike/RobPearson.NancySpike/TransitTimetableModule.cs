@@ -1,18 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using Nancy;
+using Nancy.ModelBinding;
 
 namespace RobPearson.NancySpike
 {
     /// <summary>
-    ///     Transit Timetable Module
-    ///     https://api.maplepixel.com.au/transit/timetable
+    ///     Transit Module
+    ///     https://api.maplepixel.com.au/transit/
     /// </summary>
     public class TransitTimetableModule : NancyModule
     {
         public TransitTimetableModule()
         {
             Get["/transit/timetable/{timestamp}"] = p => GetTransitTimeTable(p.timestamp);
+
+            Post["/transit/FavouriteTrip"] = p =>
+            {
+                // TODO: This should probably be in something like a settings module
+                var trip = this.Bind<FavouriteTrip>();
+
+                // TODO: Repo should be injected
+                var settingsRepo = new SettingsRepository();
+                var id = settingsRepo.SaveFavouriteTrip(trip);
+
+                // TODO: Add url to response for new resource
+                return HttpStatusCode.OK;
+            };
         }
 
         private IEnumerable<TransitTripDetail> GetTransitTimeTable(DateTime timestamp)
@@ -29,7 +43,7 @@ namespace RobPearson.NancySpike
                 DepartingLocation = "12345.6, 5555.6",
                 ArrivingStopName = "Central",
                 ArrivingPlatform = "Platform 5",
-                ArrivingTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 08, 34, 00),
+                ArrivingTime = new DateTime(timestamp.Year, timestamp.Month, timestamp.Day, 08, 34, 00),
                 ArrivingLocation = "1235.77, 98171.1"
             };
 
@@ -39,11 +53,11 @@ namespace RobPearson.NancySpike
                 RouteLongName = "Caboolture Line",
                 DepartingStopName = "Bald Hills",
                 DepartingPlatform = "Platform 1",
-                DepartingTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 08, 14, 00),
+                DepartingTime = new DateTime(timestamp.Year, timestamp.Month, timestamp.Day, 08, 14, 00),
                 DepartingLocation = "12345.6, 5555.6",
                 ArrivingStopName = "Central",
                 ArrivingPlatform = "Platform 5",
-                ArrivingTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 08, 47, 00),
+                ArrivingTime = new DateTime(timestamp.Year, timestamp.Month, timestamp.Day, 08, 47, 00),
                 ArrivingLocation = "1235.77, 98171.1"
             };
 
@@ -52,6 +66,33 @@ namespace RobPearson.NancySpike
 
             return timetable;
         }
+    }
+
+    public interface ISettingsRepository
+    {
+        int SaveFavouriteTrip(FavouriteTrip trip);
+    }
+
+    public class SettingsRepository : ISettingsRepository
+    {
+        public int SaveFavouriteTrip(FavouriteTrip trip)
+        {
+            // Do nothing for now
+            return 1;
+        }
+    }
+
+    public class FavouriteTrip
+    {
+        public string TripId { get; set; }
+        public string DepartingStopId { get; set; }
+        public string DepartingChildStopIds { get; set; }
+        public string DepartingStopName { get; set; }
+        public string DepartingLocation { get; set; }
+        public string ArrivingStopId { get; set; }
+        public string ArrivingChildStopIds { get; set; }
+        public string ArrivingLocation { get; set; }
+        public string ArrivingStopName { get; set; }
     }
 
     public class TransitTripDetail
