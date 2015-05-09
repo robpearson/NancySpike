@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Moq;
 using Nancy;
 using Nancy.Testing;
 using Xunit;
@@ -71,10 +72,13 @@ namespace RobPearson.NancySpike.Test
                 ArrivingLocation = "1235.77, 98171.1",
                 ArrivingStopName = "Central"
             };
+            var repo = new Mock<ISettingsRepository>();
+            repo.Setup(x => x.SaveFavouriteTrip(It.IsAny<FavouriteTrip>())).Returns(5);
+
             var browser = new Browser(with =>
             {
                 with.Module<TransitTimetableModule>();
-                with.EnableAutoRegistration();
+                with.Dependencies(repo.Object);
             });
 
             // When
@@ -87,7 +91,7 @@ namespace RobPearson.NancySpike.Test
 
             // Then
             Assert.Equal(HttpStatusCode.Created, response.StatusCode);
-            Assert.Equal("/transit/FavouriteTrip/1", response.Headers["Location"]);
+            Assert.Equal("/transit/FavouriteTrip/5", response.Headers["Location"]);
         }
     }
 }
