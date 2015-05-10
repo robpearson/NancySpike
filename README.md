@@ -8,7 +8,7 @@ Exploring NancyFX by trying to implement hitting some fictional example endpoint
 - [x] https://api.maplepixel.io/transit/timetables/2015-05-02
 - [x] https://api.maplepixel.io/settings/favouritetrip/
 
-Interested to see how to implement restful operations (GET, POST etc) and how testable the code is.
+Interested to learn how to implement restful operations (GET, POST etc) and how testable the code is.
 
 ## Requirements
 
