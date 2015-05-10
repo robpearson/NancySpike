@@ -1,7 +1,7 @@
 # NancySpike
 Simple Spike to explore [Nancy FX](https://github.com/NancyFX/).
 
-## Context
+## Goals
 
 Exploring NancyFX by trying to implement hitting some fictional example endpoints.
 
