@@ -3,11 +3,16 @@ Simple Spike to explore [Nancy FX](https://github.com/NancyFX/).
 
 ## Example
 
-Coming soon!
+Exploring NancyFX by trying to implement hitting some fictional example endpoints.
+
+- [x] https://api.maplepixel.io/transit/timetables/2015-05-02
+- [x] https://api.maplepixel.io/settings/favouritetrip/
+
+Interested to see how to implement restful operations (GET, POST etc) and how testable the code is.
 
 ## Requirements
 
-Coming Soon!
+Built w/ Microsoft Visual Studio 2013 and .NET 4.5.  Using NancyFX 1.2 and xUnit.net 2.x.
 
 ## Credits
 
